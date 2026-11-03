@@ -39,7 +39,9 @@ Keep this file and README current whenever allocation, peer tooling or operation
 - `dn42-auto-peer.service` runs `bin/dn42-auto-peer-daemon.py` straight from this checkout (as
   `slop`, with the Python venv under `~/.gemini/antigravity-cli/brain/.../scratch/venv`; see
   `systemctl cat dn42-auto-peer`). It provisions WireGuard tunnels and BIRD sessions, verifies
-  convergence, and every few minutes rewrites the summary line in `PEERS.md`, commits only that
-  file and pushes. Restart it after changing the script; never restart bird for doc changes.
+  convergence, and every few minutes rewrites the summary line in `PEERS.md` and commits only that
+  file locally. It does not push (automated pushes on every peer flap look like spam to GitHub);
+  those commits go out with the next manual push. Restart it after changing the script; never
+  restart bird for doc changes.
 - Peer inventory, pending requests and verified anycast DNS: `PEERS.md`. Peering PR forks live in
   `~/src/{baragoon,highdef,maiyun}-peering` (each with an `upstream` remote).

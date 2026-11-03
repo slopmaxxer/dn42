@@ -129,7 +129,7 @@ def verify_bgp_and_connectivity():
 PEERS_DOC = "/home/slop/src/dn42/PEERS.md"
 
 def update_docs_and_git(peer_count, peers):
-    log("Updating documentation and pushing ~/src/dn42 to origin (GitHub)...")
+    log("Updating documentation and committing it in ~/src/dn42...")
     try:
         with open(PEERS_DOC, "r") as f:
             content = f.read()
@@ -144,10 +144,11 @@ def update_docs_and_git(peer_count, peers):
             f.write(content)
 
         # Commit only the peer summary; other changes in the checkout are not ours to commit.
+        # No push: an automated push every time a peer flaps looks like spam to GitHub, so the
+        # local commits go out with the next manual push.
         run_cmd(f"git -C /home/slop/src/dn42 add -- {PEERS_DOC}")
         run_cmd(f'git -C /home/slop/src/dn42 commit -m "Auto-established DN42 peering sessions ({peer_count} peers)" -- {PEERS_DOC} || true')
-        run_cmd("git -C /home/slop/src/dn42 push origin main || true")
-        log("dn42 repo updated on GitHub (origin).")
+        log("dn42 PEERS.md summary committed locally.")
     except Exception as e:
         log(f"Error updating docs: {e}")
 
